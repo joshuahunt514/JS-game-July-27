@@ -31,6 +31,15 @@ var paddleWidth = 75;
 var paddleX = (canvas.width - paddleWidth) / 2;
 var rightPressed = false;
 var leftPressed = false;
+var brickRowCount = 3;
+var brickColumnCount = 5;
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+var brickOffsetTop = 30;
+var brickOffsetLeft = 30;
+
+/***************************************** Left Off Here July 27th*/
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -72,8 +81,16 @@ function draw() {
   drawBall();
   drawPaddle();
 
-  if (y + dy > canvas.height || y + dy < ballRadius) {
+  if (y + dy < ballRadius) {
     dy = -dy;
+  } else if(y + dy > canvas.height-ballRadius) {
+    if(x > paddleX && x < paddleX + paddleWidth) {
+      dy = -dy;
+    } else {
+      alert("GAME OVER");
+      document.location.reload();
+      clearInterval(interval);
+    }
   }
 
   if (x + dx > canvas.width || x + dx < ballRadius) {
@@ -95,7 +112,7 @@ function draw() {
   y += dy;
 }
 
-setInterval(draw, 10);
+var interval = setInterval(draw, 10);
 
 /*
  if(y + dy < 0) {
